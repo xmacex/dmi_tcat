@@ -81,7 +81,7 @@ class QueryBin():
         self.mintime = data['mintime']
         self.nohashtags = int(data['nohashtags'])
         self.nomentions = int(data['nomentions'])
-        self.keywords = data['keywords'].split(',')
+        self.keywords = [kw.strip() for kw in data['keywords'].split(',')]
 
     def __repr__(self):
         return f"<type(self)> {self.bin}"
