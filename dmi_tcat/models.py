@@ -34,7 +34,8 @@ class Tcat():
             url = f'{url}/{param}'
 
         resp = requests.get(url, auth=self.auth,
-                            headers=type(self)._headers).raise_for_status()
+                            headers=type(self)._headers)
+        resp.raise_for_status()
         data = resp.json()
         del(data['original_request'])
         return data
