@@ -67,6 +67,18 @@ class Tcat():
         except requests.exceptions.HTTPError:
             raise
 
+    def notweets(self, binname, startdate, enddate):
+        """Get the number of tweets in this bin."""
+        raise NotImplementedError
+
+    def tweets(self, binname, startdate, enddate, format='csv'):
+        """Export tweets in CSV of TSV format."""
+        raise NotImplementedError
+
+    def purge(self):
+        """Delete tweets from the selected time period."""
+        raise NotImplementedError
+
 
 class QueryBin():
     """Class to represent a query bin."""
