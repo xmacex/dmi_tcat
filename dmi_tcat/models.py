@@ -98,4 +98,4 @@ class QueryBin():
         self.keywords = [kw.strip() for kw in data['keywords'].split(',')]
 
     def __repr__(self):
-        return f"<type(self)> {self.bin}"
+        return f"{type(self)} {self.bin}"
