@@ -1,5 +1,6 @@
 import requests
 import logging
+from datetime import datetime
 
 
 class Tcat():
@@ -87,11 +88,11 @@ class QueryBin():
         """Constructor."""
         self.bin = data['bin']
         self.type = data['type']
-        self.active = data['active']
+        self.active = bool(int(data['active']))
         self.comments = data['comments']
         self.notweets = int(data['notweets'])
-        self.maxtime = data['maxtime']
-        self.mintime = data['mintime']
+        self.maxtime = datetime.fromisoformat(data['maxtime'])
+        self.mintime = datetime.fromisoformat(data['mintime'])
         self.nohashtags = int(data['nohashtags'])
         self.nomentions = int(data['nomentions'])
         self.keywords = [kw.strip() for kw in data['keywords'].split(',')]
