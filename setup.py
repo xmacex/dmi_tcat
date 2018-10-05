@@ -4,7 +4,7 @@ with open("README.md", 'r') as fh:
     long_description = fh.read()
 
 setuptools.setup(name='dmi_tcat',
-                 version='0.1',
+                 version='0.0.1',
                  author="Mace Ojala",
                  author_email="mace.ojala@gmail.com",
                  description="A little Python interface to DMI TCAT",
