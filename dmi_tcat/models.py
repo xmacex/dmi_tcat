@@ -40,30 +40,31 @@ class Tcat():
         del(data['original_request'])
         return data
 
-    def bins(self):
+    def bins(self, reload=False):
         """List the bins in this TCAT."""
-        if not self._binnames:
+        if not self._binnames or reload:
             self.logger.debug('Refreshing bins')
             self._binnames = list(self._query('querybin.php').values())
         return self._binnames
 
-    def get_bin(self, binname):
+    def get_bin(self, binname, reload=False):
         """Get information about a particular bin."""
         self.logger.debug(f'Getting bin {bin}')
+        if reload:
+            del(self._bins[binname])
         try:
             return self._bins[binname]
         except KeyError:
-            # self._bins[binname] = self._query('querybin.php', binname)
             data = self._query('querybin.php', binname)
             self._bins[binname] = QueryBin(data)
             return self._bins[binname]
 
-    def load_all_bins(self):
+    def load_all_bins(self, reload=False):
         """Ask the instance to fetch and get cache all bins"""
         try:
             self._handshake()
             for qbin in self.bins():
-                self.get_bin(qbin)
+                self.get_bin(qbin, reload=reload)
         except requests.exceptions.HTTPError:
             raise
 
