@@ -23,6 +23,12 @@ class Tcat():
         except requests.exceptions.HTTPError:
             raise
 
+    def __str__(self):
+        return f"{self.endpoint}"
+
+    def __repr__(self):
+        return f"{type(self)} {self.endpoint}"
+
     def _handshake(self):
         """Utility to check connection with TCAT instance."""
         requests.get(self.endpoint, auth=self.auth,
@@ -96,6 +102,9 @@ class QueryBin():
         self.nohashtags = int(data['nohashtags'])
         self.nomentions = int(data['nomentions'])
         self.keywords = [kw.strip() for kw in data['keywords'].split(',')]
+
+    def __str__(self):
+        return f"{self.bin}"
 
     def __repr__(self):
         return f"{type(self)} {self.bin}"
