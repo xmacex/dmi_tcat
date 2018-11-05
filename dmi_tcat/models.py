@@ -4,7 +4,9 @@ from datetime import datetime
 
 
 class Tcat():
-    """A class to represent a TCAT instance."""
+    """Representation of a TCAT instance over the TCAT API.
+
+    Supports only HTTP basic authentication."""
 
     _headers = {'accept': 'application/json'}
 
@@ -97,8 +99,15 @@ class QueryBin():
         self.active = bool(int(data['active']))
         self.comments = data['comments']
         self.notweets = int(data['notweets'])
-        self.maxtime = datetime.fromisoformat(data['maxtime'])
-        self.mintime = datetime.fromisoformat(data['mintime'])
+        try:
+            self.mintime = datetime.fromisoformat(data['mintime'])
+        except TypeError:
+            self.mintime = None
+        try:
+            self.maxtime = datetime.fromisoformat(data['maxtime'])
+        except TypeError:
+            self.maxtime = None
+        self.mintime = data['mintime']
         self.nohashtags = int(data['nohashtags'])
         self.nomentions = int(data['nomentions'])
         self.keywords = [kw.strip() for kw in data['keywords'].split(',')]
