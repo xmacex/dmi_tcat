@@ -10,11 +10,20 @@ class Tcat():
 
     _headers = {'accept': 'application/json'}
 
-    def __init__(self, url, username, password, loadbins=False):
-        """Constructor."""
+    def __init__(self, url, username, password, loadbins=False, verify=True):
+        """Constructor.
+
+        Parameters:
+            url (string): Server address.
+            username (string): user name.
+            password (string): password.
+            loadbins (bool): Pre-load all the bins. This is slow.
+            verify (bool): Check the server SSL certificates.
+        """
         self.endpoint = f'{url}/api/'
         self.auth = (username, password)
         self.logger = logging.getLogger('tcat')
+        self.verify = verify
         self._binnames = None
         self._bins = {}
 
@@ -33,7 +42,7 @@ class Tcat():
 
     def _handshake(self):
         """Utility to check connection with TCAT instance."""
-        requests.get(self.endpoint, auth=self.auth,
+        requests.get(self.endpoint, auth=self.auth, verify=self.verify,
                      headers=type(self)._headers).raise_for_status()
 
     def _query(self, action, param=None):
@@ -42,7 +51,7 @@ class Tcat():
         if param:
             url = f'{url}/{param}'
 
-        resp = requests.get(url, auth=self.auth,
+        resp = requests.get(url, auth=self.auth, verify=self.verify,
                             headers=type(self)._headers)
         resp.raise_for_status()
         data = resp.json()
